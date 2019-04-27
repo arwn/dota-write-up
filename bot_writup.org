@@ -1,4 +1,5 @@
 #+OPTIONS: num:nil
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
 #+TITLE: Machine Learn You Some Dota2
 #+AUTHOR: Aren R. Windham
 #+EMAIL: windham.aren@protonmail.com
@@ -13,7 +14,6 @@
   game. We need a way to run hundreds of games and get hard data on if
   the change was beneficial.
 * Distributed Dota as a service
-** Docker as a Function
    We need to run a Dota executable multiple times with different bot
    files to determine which set of weights were the most effective in
    practice. Docker is the obvious choice. Docker lets us
