@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-04-26 Fri 18:10 -->
+<!-- 2019-04-26 Fri 19:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
+<title>Machine Learn You Some Dota2</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="aren windham" />
+<meta name="author" content="Aren R. Windham" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -229,93 +229,67 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
+<h1 class="title">Machine Learn You Some Dota2</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga274225">1. Introduction</a></li>
-<li><a href="#orgce56bd5">2. Distributed Dota as a service</a>
+<li><a href="#org4d585e3">Introduction</a></li>
+<li><a href="#org33acae7">Distributed Dota as a service</a>
 <ul>
-<li><a href="#org5e336a8">2.1. docker as a function</a></li>
-<li><a href="#orgadda4c5">2.2. parsing game logs</a>
+<li><a href="#orga5f28c0">Docker as a Function</a></li>
+<li><a href="#org59787fe">Parsing Game Logs</a></li>
+<li><a href="#orgc86ca84">AWK</a></li>
+<li><a href="#org22acae9">Distributed Dota</a></li>
+<li><a href="#orgd0287f2">Coroutines Are Cool</a>
 <ul>
-<li><a href="#org9124c3c">2.2.1. awk</a></li>
-</ul>
-</li>
-<li><a href="#org5fb59b3">2.3. distributed Dota</a>
-<ul>
-<li><a href="#org8e0536f">2.3.1. coroutines are cool</a></li>
-</ul>
-</li>
-<li><a href="#orgf8dd1d5">2.4. machine learning</a>
-<ul>
-<li><a href="#orgac20efd">2.4.1. genetic algorithms</a></li>
-<li><a href="#org73b9cc0">2.4.2. awk</a></li>
-</ul>
-</li>
-<li><a href="#org91b1a7b">2.5. distributed Dota</a>
-<ul>
-<li><a href="#org8158600">2.5.1. coroutines are cool</a></li>
-</ul>
-</li>
-<li><a href="#org40ea826">2.6. machine learning</a>
-<ul>
-<li><a href="#org50880a1">2.6.1. genetic algorithms</a></li>
-<li><a href="#org5635628">2.6.2. awk</a></li>
-</ul>
-</li>
-<li><a href="#orgebce42b">2.7. distributed Dota</a>
-<ul>
-<li><a href="#org53bc948">2.7.1. coroutines are cool</a></li>
-</ul>
-</li>
-<li><a href="#orgd5986a5">2.8. machine learning</a>
-<ul>
-<li><a href="#org61456e6">2.8.1. genetic algorithms</a></li>
-<li><a href="#orgdb88a86">2.8.2. awk</a></li>
-</ul>
-</li>
-<li><a href="#org4ea44c6">2.9. distributed Dota</a>
-<ul>
-<li><a href="#org61bb59b">2.9.1. coroutines are cool</a></li>
-</ul>
-</li>
-<li><a href="#orgc58f871">2.10. machine learning</a>
-<ul>
-<li><a href="#org0d0e8ad">2.10.1. genetic algorithms</a></li>
+<li><a href="#org9dd4bab">Server</a></li>
+<li><a href="#orgd1d4171">Worker</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li><a href="#org9b31818">Machine Learning</a>
+<ul>
+<li><a href="#org422ca31">Genetic Algorithms</a></li>
+</ul>
+</li>
+<li><a href="#org68d6685">Conclusion</a></li>
 </ul>
 </div>
 </div>
+
+<div id="outline-container-org4d585e3" class="outline-2">
+<h2 id="org4d585e3">Introduction</h2>
+<div class="outline-text-2" id="text-org4d585e3">
 <p>
-Machine learn some Dota.
-</p>
-<div id="outline-container-orga274225" class="outline-2">
-<h2 id="orga274225"><span class="section-number-2">1</span> Introduction</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-Creating a custom machine learning solution. The obvious step after
-writing a custom Dota bot is to teach it to teach itself.
+The problem is this; We have a Dota2 bot that is becoming
+increasingly hard to program. Our bot is built with a heuristics
+based <a href="https://en.wikipedia.org/wiki/Finite-state_machine">state machine</a>. Each state has a hard coded weight that will
+give precedence to an action that can be taken that moment. Dota is
+an incredibly complex game and it is nearly impossible to tell if a
+change to a weight is beneficial or if the bot just got lucky one
+game. We need a way to run hundreds of games and get hard data on if
+the change was beneficial.
 </p>
 </div>
 </div>
-<div id="outline-container-orgce56bd5" class="outline-2">
-<h2 id="orgce56bd5"><span class="section-number-2">2</span> Distributed Dota as a service</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-org33acae7" class="outline-2">
+<h2 id="org33acae7">Distributed Dota as a service</h2>
+<div class="outline-text-2" id="text-org33acae7">
 </div>
-<div id="outline-container-org5e336a8" class="outline-3">
-<h3 id="org5e336a8"><span class="section-number-3">2.1</span> docker as a function</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-orga5f28c0" class="outline-3">
+<h3 id="orga5f28c0">Docker as a Function</h3>
+<div class="outline-text-3" id="text-orga5f28c0">
 <p>
-We needed to run a Dota executable multiple times with different bot
+We need to run a Dota executable multiple times with different bot
 files to determine which set of weights were the most effective in
-practice. Docker was the obvious choice. Setting up a docker container
-that grabs the Dota and bot files from the local disk was
-simple. After some googling and testing we had a way to run a game of
-Dota and pipe the output to a file.
+practice. Docker is the obvious choice. Docker lets us
+automatically load the game, bot files, and return the
+output. Setting up a docker container that grabs the Dota and bot
+files from the local disk is simple. After some googling and
+testing we have a way to run a game of Dota and pipe the output to
+a file.
 </p>
 <pre class="example">
 FROM fedora:latest
@@ -325,9 +299,9 @@ CMD sh /scripts/run_game.sh
 </pre>
 </div>
 </div>
-<div id="outline-container-orgadda4c5" class="outline-3">
-<h3 id="orgadda4c5"><span class="section-number-3">2.2</span> parsing game logs</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-org59787fe" class="outline-3">
+<h3 id="org59787fe">Parsing Game Logs</h3>
+<div class="outline-text-3" id="text-org59787fe">
 <p>
 Of course Dota couldn't provide nice json files as logs so let's get
 to parsing. Dota game logs vary in length but are consistent with
@@ -337,32 +311,31 @@ were a way to use regular expressions to match lines and grab fields
 from those lines.
 </p>
 </div>
-<div id="outline-container-org9124c3c" class="outline-4">
-<h4 id="org9124c3c"><span class="section-number-4">2.2.1</span> awk</h4>
-<div class="outline-text-4" id="text-2-2-1">
+</div>
+<div id="outline-container-orgc86ca84" class="outline-3">
+<h3 id="orgc86ca84">AWK</h3>
+<div class="outline-text-3" id="text-orgc86ca84">
 <p>
-AWK is a specific purpose programming language (like wolfram alpha or
+Awk is a specific purpose programming language (like wolfram alpha or
 bison) as opposed to a general purpose programming language (like Lisp
-or Prolog). This means that AWK does one thing, and one thing well;
-text stream processing. Using Gnu awk we can easily write statement that
+or Prolog). This means that awk does one thing, and one thing well;
+text stream processing. Using Gnu Awk we can easily write statement that
 will write the time a tower dies.
+Using this as the basis, it is a non issue to implement every other
+action that can happen throughout the game.
 </p>
+
 <div class="org-src-container">
 <pre class="src src-awk"><span style="color: #a020f0;">if</span>($0 ~ <span style="color: #8b2252;">/Building: npc_dota_.*_(tower|rax)/</span>){
     <span style="color: #483d8b;">printf</span> <span style="color: #8b2252;">"tower %s died at %d"</span>, $2, <span style="color: #483d8b;">systime</span>()
 }
 </pre>
 </div>
-<p>
-Using this as the basis, it is a non issue to implement every other
-action that can happen throughout the game.
-</p>
 </div>
 </div>
-</div>
-<div id="outline-container-org5fb59b3" class="outline-3">
-<h3 id="org5fb59b3"><span class="section-number-3">2.3</span> distributed Dota</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-org22acae9" class="outline-3">
+<h3 id="org22acae9">Distributed Dota</h3>
+<div class="outline-text-3" id="text-org22acae9">
 <p>
 We can run multiple games and pipe the nicely formatted output to
 files. Now we would like to run hundreds of games and use the data
@@ -374,17 +347,18 @@ do is tell the server to run 100 games and have each computer run up
 to 4 games in parallel until that 100 game quota is met.
 </p>
 </div>
-<div id="outline-container-org8e0536f" class="outline-4">
-<h4 id="org8e0536f"><span class="section-number-4">2.3.1</span> coroutines are cool</h4>
-<div class="outline-text-4" id="text-2-3-1">
+</div>
+<div id="outline-container-orgd0287f2" class="outline-3">
+<h3 id="orgd0287f2">Coroutines Are Cool</h3>
+<div class="outline-text-3" id="text-orgd0287f2">
 <p>
 We will build our own custom solution in a programming language made
 for distributed computing. Our general layout will work like this.
 </p>
 </div>
-<ol class="org-ol">
-<li><a id="org6a0ef17"></a>server<br />
-<div class="outline-text-5" id="text-2-3-1-1">
+<div id="outline-container-org9dd4bab" class="outline-4">
+<h4 id="org9dd4bab">Server</h4>
+<div class="outline-text-4" id="text-org9dd4bab">
 <p>
 The server is informed that 100 games are to be played. The server
 then starts each worker and opens a http server to listen for requests
@@ -417,26 +391,27 @@ finished is a wait group meaning that finished.Wait() will block until
 every worker has sent back it's json data.
 </p>
 </div>
-</li>
-<li><a id="org25f8c29"></a>worker<br />
-<div class="outline-text-5" id="text-2-3-1-2">
+</div>
+<div id="outline-container-orgd1d4171" class="outline-4">
+<h4 id="orgd1d4171">Worker</h4>
+<div class="outline-text-4" id="text-orgd1d4171">
 <p>
 The worker is in charge of load balancing it's computer and running
-games.  When the server is woke it sends MAX<sub>GAMES</sub> requests to the
-server asking to start games. In Go this is easy
+games.  When the server is woke it sends <code>MAX_GAMES</code> requests to the
+server, asking to start games. In Go this is easy
 </p>
 <div class="org-src-container">
 <pre class="src src-go">limit := limiter.<span style="color: #0000ff;">NewConcurrencyLimiter</span>(MAX_GAMES)
 done := <span style="color: #008b8b;">false</span>
 <span style="color: #a020f0;">for</span> !done {
-        done = limit.<span style="color: #0000ff;">Execute</span>(runGame)
+        done = limit.<span style="color: #0000ff;">Execute</span>(RunGame)
         time.<span style="color: #0000ff;">Sleep</span>(time.Second * 3) <span style="color: #b22222;">// </span><span style="color: #b22222;">because other computers are slow</span>
 }
 limit.<span style="color: #0000ff;">Wait</span>()
 </pre>
 </div>
 <p>
-runGame sends a http request to the server and runs a game based on
+<code>RunGame</code> sends a http request to the server and runs a game based on
 the response. since running a docker container/Dota game, blocks until
 it has finished running we need to spawn a new process every time we
 start a game. Again, in Go this is easy.
@@ -447,13 +422,12 @@ Now that we have our server and workers communicating nicely we can
 run lots of games and generate huge amounts of data.
 </p>
 </div>
-</li>
-</ol>
 </div>
 </div>
-<div id="outline-container-orgf8dd1d5" class="outline-3">
-<h3 id="orgf8dd1d5"><span class="section-number-3">2.4</span> machine learning</h3>
-<div class="outline-text-3" id="text-2-4">
+</div>
+<div id="outline-container-org9b31818" class="outline-2">
+<h2 id="org9b31818">Machine Learning</h2>
+<div class="outline-text-2" id="text-org9b31818">
 <p>
 As fun as tweaking random bot variables is, it's not very
 efficient.. for humans. Luckily computers can do boring tasks very
@@ -461,433 +435,85 @@ fast. Since we have a lack of time and processing power we will use an
 algorithm that takes less of both.
 </p>
 </div>
-<div id="outline-container-orgac20efd" class="outline-4">
-<h4 id="orgac20efd"><span class="section-number-4">2.4.1</span> genetic algorithms</h4>
-<div class="outline-text-4" id="text-2-4-1">
+<div id="outline-container-org422ca31" class="outline-3">
+<h3 id="org422ca31">Genetic Algorithms</h3>
+<div class="outline-text-3" id="text-org422ca31">
 <p>
 Genetic algorithms are a type of machine learning based on random
 mutations and survival of the fittest. Instead of running the server
 once and getting a result back, we want that resul to be fed back into
 next round's bots. The new server will work as follows:
 </p>
-</div>
-</div>
-<div id="outline-container-org73b9cc0" class="outline-4">
-<h4 id="org73b9cc0"><span class="section-number-4">2.4.2</span> awk</h4>
-<div class="outline-text-4" id="text-2-4-2">
-<p>
-AWK is a specific purpose programming language (like wolfram alpha or
-bison) as opposed to a general purpose programming language (like Lisp
-or Prolog). This means that AWK does one thing, and one thing well;
-text stream processing. Using Gnu awk we can easily write statement that
-will write the time a tower dies.
-</p>
-<div class="org-src-container">
-<pre class="src src-awk"><span style="color: #a020f0;">if</span>($0 ~ <span style="color: #8b2252;">/Building: npc_dota_.*_(tower|rax)/</span>){
-    <span style="color: #483d8b;">printf</span> <span style="color: #8b2252;">"tower %s died at %d"</span>, $2, <span style="color: #483d8b;">systime</span>()
-}
-</pre>
-</div>
-<p>
-Using this as the basis, it is a non issue to implement every other
-action that can happen throughout the game.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-org91b1a7b" class="outline-3">
-<h3 id="org91b1a7b"><span class="section-number-3">2.5</span> distributed Dota</h3>
-<div class="outline-text-3" id="text-2-5">
-<p>
-We can run multiple games and pipe the nicely formatted output to
-files. Now we would like to run hundreds of games and use the data
-from them to create pretty graphs representing how well our bot
-does. each docker container runs one game of Dota, uses two cores, and
-about 1.3 gigs of ram. Since our computers have 8 threads and 8 gigs
-of ram we can optimally run 4 games at a time. What we would like to
-do is tell the server to run 100 games and have each computer run up
-to 4 games in parallel until that 100 game quota is met.
-</p>
-</div>
-<div id="outline-container-org8158600" class="outline-4">
-<h4 id="org8158600"><span class="section-number-4">2.5.1</span> coroutines are cool</h4>
-<div class="outline-text-4" id="text-2-5-1">
-<p>
-We will build our own custom solution in a programming language made
-for distributed computing. Our general layout will work like this.
-</p>
-</div>
-<ol class="org-ol">
-<li><a id="orgebeb4eb"></a>server<br />
-<div class="outline-text-5" id="text-2-5-1-1">
-<p>
-The server is informed that 100 games are to be played. The server
-then starts each worker and opens a http server to listen for requests
-from each worker. It listens for a START request and replies yes or no
-depending on if there are still games to be run or not. If it receives
-a json file instead of a start request it will log it and continue on.
-The server is just smart enough to worry about how many games it is
-running and how many games it needs to run, nothing else. Load
-balancing is handled by the worker.
-</p>
-<div class="org-src-container">
-<pre class="src src-go"><span style="color: #b22222;">// </span><span style="color: #b22222;">start http server</span>
-finished.<span style="color: #0000ff;">Add</span>(1)
-<span style="color: #a020f0;">go</span> <span style="color: #0000ff;">httpListener</span>()
 
-<span style="color: #b22222;">// </span><span style="color: #b22222;">spin up workers</span>
-<span style="color: #a020f0;">for</span> i, worker := <span style="color: #a020f0;">range</span>(workers) {
-        fmt.<span style="color: #0000ff;">Printf</span>(<span style="color: #8b2252;">"Starting worker %s\n"</span>, worker)
-        err := <span style="color: #0000ff;">startWorker</span>(worker)
-        <span style="color: #a020f0;">if</span> err != <span style="color: #008b8b;">nil</span> {
-                log.<span style="color: #0000ff;">Print</span>(err)
-        }
-}
-<span style="color: #b22222;">// </span><span style="color: #b22222;">wait for every worker to complete their games</span>
-finished.<span style="color: #0000ff;">Wait</span>()
-</pre>
-</div>
-<p>
-finished is a wait group meaning that finished.Wait() will block until
-every worker has sent back it's json data.
-</p>
-</div>
-</li>
-<li><a id="org15cff6e"></a>worker<br />
-<div class="outline-text-5" id="text-2-5-1-2">
-<p>
-The worker is in charge of load balancing it's computer and running
-games.  When the server is woke it sends MAX<sub>GAMES</sub> requests to the
-server asking to start games. In Go this is easy
-</p>
-<div class="org-src-container">
-<pre class="src src-go">limit := limiter.<span style="color: #0000ff;">NewConcurrencyLimiter</span>(MAX_GAMES)
-done := <span style="color: #008b8b;">false</span>
-<span style="color: #a020f0;">for</span> !done {
-        done = limit.<span style="color: #0000ff;">Execute</span>(runGame)
-        time.<span style="color: #0000ff;">Sleep</span>(time.Second * 3) <span style="color: #b22222;">// </span><span style="color: #b22222;">because other computers are slow</span>
-}
-limit.<span style="color: #0000ff;">Wait</span>()
-</pre>
-</div>
-<p>
-runGame sends a http request to the server and runs a game based on
-the response. since running a docker container/Dota game, blocks until
-it has finished running we need to spawn a new process every time we
-start a game. Again, in Go this is easy.
-</p>
-
-<p>
-Now that we have our server and workers communicating nicely we can
-run lots of games and generate huge amounts of data.
-</p>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org40ea826" class="outline-3">
-<h3 id="org40ea826"><span class="section-number-3">2.6</span> machine learning</h3>
-<div class="outline-text-3" id="text-2-6">
-<p>
-As fun as tweaking random bot variables is, it's not very
-efficient.. for humans. Luckily computers can do boring tasks very
-fast. Since we have a lack of time and processing power we will use an
-algorithm that takes less of both.
-</p>
-</div>
-<div id="outline-container-org50880a1" class="outline-4">
-<h4 id="org50880a1"><span class="section-number-4">2.6.1</span> genetic algorithms</h4>
-<div class="outline-text-4" id="text-2-6-1">
-<p>
-Genetic algorithms are a type of machine learning based on random
-mutations and survival of the fittest. Instead of running the server
-once and getting a result back, we want that resul to be fed back into
-next round's bots. The new server will work as follows:
-</p>
-</div>
-</div>
-<div id="outline-container-org5635628" class="outline-4">
-<h4 id="org5635628"><span class="section-number-4">2.6.2</span> awk</h4>
-<div class="outline-text-4" id="text-2-6-2">
-<p>
-AWK is a specific purpose programming language (like wolfram alpha or
-bison) as opposed to a general purpose programming language (like Lisp
-or Prolog). This means that AWK does one thing, and one thing well;
-text stream processing. Using Gnu awk we can easily write statement that
-will write the time a tower dies.
-</p>
-<div class="org-src-container">
-<pre class="src src-awk"><span style="color: #a020f0;">if</span>($0 ~ <span style="color: #8b2252;">/Building: npc_dota_.*_(tower|rax)/</span>){
-    <span style="color: #483d8b;">printf</span> <span style="color: #8b2252;">"tower %s died at %d"</span>, $2, <span style="color: #483d8b;">systime</span>()
-}
-</pre>
-</div>
-<p>
-Using this as the basis, it is a non issue to implement every other
-action that can happen throughout the game.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-orgebce42b" class="outline-3">
-<h3 id="orgebce42b"><span class="section-number-3">2.7</span> distributed Dota</h3>
-<div class="outline-text-3" id="text-2-7">
-<p>
-We can run multiple games and pipe the nicely formatted output to
-files. Now we would like to run hundreds of games and use the data
-from them to create pretty graphs representing how well our bot
-does. each docker container runs one game of Dota, uses two cores, and
-about 1.3 gigs of ram. Since our computers have 8 threads and 8 gigs
-of ram we can optimally run 4 games at a time. What we would like to
-do is tell the server to run 100 games and have each computer run up
-to 4 games in parallel until that 100 game quota is met.
-</p>
-</div>
-<div id="outline-container-org53bc948" class="outline-4">
-<h4 id="org53bc948"><span class="section-number-4">2.7.1</span> coroutines are cool</h4>
-<div class="outline-text-4" id="text-2-7-1">
-<p>
-We will build our own custom solution in a programming language made
-for distributed computing. Our general layout will work like this.
-</p>
-</div>
-<ol class="org-ol">
-<li><a id="orgf251c2c"></a>server<br />
-<div class="outline-text-5" id="text-2-7-1-1">
-<p>
-The server is informed that 100 games are to be played. The server
-then starts each worker and opens a http server to listen for requests
-from each worker. It listens for a START request and replies yes or no
-depending on if there are still games to be run or not. If it receives
-a json file instead of a start request it will log it and continue on.
-The server is just smart enough to worry about how many games it is
-running and how many games it needs to run, nothing else. Load
-balancing is handled by the worker.
-</p>
-<div class="org-src-container">
-<pre class="src src-go"><span style="color: #b22222;">// </span><span style="color: #b22222;">start http server</span>
-finished.<span style="color: #0000ff;">Add</span>(1)
-<span style="color: #a020f0;">go</span> <span style="color: #0000ff;">httpListener</span>()
-
-<span style="color: #b22222;">// </span><span style="color: #b22222;">spin up workers</span>
-<span style="color: #a020f0;">for</span> i, worker := <span style="color: #a020f0;">range</span>(workers) {
-        fmt.<span style="color: #0000ff;">Printf</span>(<span style="color: #8b2252;">"Starting worker %s\n"</span>, worker)
-        err := <span style="color: #0000ff;">startWorker</span>(worker)
-        <span style="color: #a020f0;">if</span> err != <span style="color: #008b8b;">nil</span> {
-                log.<span style="color: #0000ff;">Print</span>(err)
-        }
-}
-<span style="color: #b22222;">// </span><span style="color: #b22222;">wait for every worker to complete their games</span>
-finished.<span style="color: #0000ff;">Wait</span>()
-</pre>
-</div>
-<p>
-finished is a wait group meaning that finished.Wait() will block until
-every worker has sent back it's json data.
-</p>
-</div>
-</li>
-<li><a id="org4baad2d"></a>worker<br />
-<div class="outline-text-5" id="text-2-7-1-2">
-<p>
-The worker is in charge of load balancing it's computer and running
-games.  When the server is woke it sends MAX<sub>GAMES</sub> requests to the
-server asking to start games. In Go this is easy
-</p>
-<div class="org-src-container">
-<pre class="src src-go">limit := limiter.<span style="color: #0000ff;">NewConcurrencyLimiter</span>(MAX_GAMES)
-done := <span style="color: #008b8b;">false</span>
-<span style="color: #a020f0;">for</span> !done {
-        done = limit.<span style="color: #0000ff;">Execute</span>(runGame)
-        time.<span style="color: #0000ff;">Sleep</span>(time.Second * 3) <span style="color: #b22222;">// </span><span style="color: #b22222;">because other computers are slow</span>
-}
-limit.<span style="color: #0000ff;">Wait</span>()
-</pre>
-</div>
-<p>
-runGame sends a http request to the server and runs a game based on
-the response. since running a docker container/Dota game, blocks until
-it has finished running we need to spawn a new process every time we
-start a game. Again, in Go this is easy.
-</p>
-
-<p>
-Now that we have our server and workers communicating nicely we can
-run lots of games and generate huge amounts of data.
-</p>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orgd5986a5" class="outline-3">
-<h3 id="orgd5986a5"><span class="section-number-3">2.8</span> machine learning</h3>
-<div class="outline-text-3" id="text-2-8">
-<p>
-As fun as tweaking random bot variables is, it's not very
-efficient.. for humans. Luckily computers can do boring tasks very
-fast. Since we have a lack of time and processing power we will use an
-algorithm that takes less of both.
-</p>
-</div>
-<div id="outline-container-org61456e6" class="outline-4">
-<h4 id="org61456e6"><span class="section-number-4">2.8.1</span> genetic algorithms</h4>
-<div class="outline-text-4" id="text-2-8-1">
-<p>
-Genetic algorithms are a type of machine learning based on random
-mutations and survival of the fittest. Instead of running the server
-once and getting a result back, we want that resul to be fed back into
-next round's bots. The new server will work as follows:
-</p>
-</div>
-</div>
-<div id="outline-container-orgdb88a86" class="outline-4">
-<h4 id="orgdb88a86"><span class="section-number-4">2.8.2</span> awk</h4>
-<div class="outline-text-4" id="text-2-8-2">
-<p>
-AWK is a specific purpose programming language (like wolfram alpha or
-bison) as opposed to a general purpose programming language (like Lisp
-or Prolog). This means that AWK does one thing, and one thing well;
-text stream processing. Using Gnu awk we can easily write statement that
-will write the time a tower dies.
-</p>
-<div class="org-src-container">
-<pre class="src src-awk"><span style="color: #a020f0;">if</span>($0 ~ <span style="color: #8b2252;">/Building: npc_dota_.*_(tower|rax)/</span>){
-    <span style="color: #483d8b;">printf</span> <span style="color: #8b2252;">"tower %s died at %d"</span>, $2, <span style="color: #483d8b;">systime</span>()
-}
-</pre>
-</div>
-<p>
-Using this as the basis, it is a non issue to implement every other
-action that can happen throughout the game.
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-org4ea44c6" class="outline-3">
-<h3 id="org4ea44c6"><span class="section-number-3">2.9</span> distributed Dota</h3>
-<div class="outline-text-3" id="text-2-9">
-<p>
-We can run multiple games and pipe the nicely formatted output to
-files. Now we would like to run hundreds of games and use the data
-from them to create pretty graphs representing how well our bot
-does. each docker container runs one game of Dota, uses two cores, and
-about 1.3 gigs of ram. Since our computers have 8 threads and 8 gigs
-of ram we can optimally run 4 games at a time. What we would like to
-do is tell the server to run 100 games and have each computer run up
-to 4 games in parallel until that 100 game quota is met.
-</p>
-</div>
-<div id="outline-container-org61bb59b" class="outline-4">
-<h4 id="org61bb59b"><span class="section-number-4">2.9.1</span> coroutines are cool</h4>
-<div class="outline-text-4" id="text-2-9-1">
-<p>
-We will build our own custom solution in a programming language made
-for distributed computing. Our general layout will work like this.
-</p>
-</div>
-<ol class="org-ol">
-<li><a id="orgfe76af5"></a>server<br />
-<div class="outline-text-5" id="text-2-9-1-1">
-<p>
-The server is informed that 100 games are to be played. The server
-then starts each worker and opens a http server to listen for requests
-from each worker. It listens for a START request and replies yes or no
-depending on if there are still games to be run or not. If it receives
-a json file instead of a start request it will log it and continue on.
-The server is just smart enough to worry about how many games it is
-running and how many games it needs to run, nothing else. Load
-balancing is handled by the worker.
-</p>
-<div class="org-src-container">
-<pre class="src src-go"><span style="color: #b22222;">// </span><span style="color: #b22222;">start http server</span>
-finished.<span style="color: #0000ff;">Add</span>(1)
-<span style="color: #a020f0;">go</span> <span style="color: #0000ff;">httpListener</span>()
-
-<span style="color: #b22222;">// </span><span style="color: #b22222;">spin up workers</span>
-<span style="color: #a020f0;">for</span> i, worker := <span style="color: #a020f0;">range</span>(workers) {
-        fmt.<span style="color: #0000ff;">Printf</span>(<span style="color: #8b2252;">"Starting worker %s\n"</span>, worker)
-        err := <span style="color: #0000ff;">startWorker</span>(worker)
-        <span style="color: #a020f0;">if</span> err != <span style="color: #008b8b;">nil</span> {
-                log.<span style="color: #0000ff;">Print</span>(err)
-        }
-}
-<span style="color: #b22222;">// </span><span style="color: #b22222;">wait for every worker to complete their games</span>
-finished.<span style="color: #0000ff;">Wait</span>()
-</pre>
-</div>
-<p>
-finished is a wait group meaning that finished.Wait() will block until
-every worker has sent back it's json data.
-</p>
-</div>
-</li>
-<li><a id="org871c46b"></a>worker<br />
-<div class="outline-text-5" id="text-2-9-1-2">
-<p>
-The worker is in charge of load balancing it's computer and running
-games.  When the server is woke it sends MAX<sub>GAMES</sub> requests to the
-server asking to start games. In Go this is easy
-</p>
-<div class="org-src-container">
-<pre class="src src-go">limit := limiter.<span style="color: #0000ff;">NewConcurrencyLimiter</span>(MAX_GAMES)
-done := <span style="color: #008b8b;">false</span>
-<span style="color: #a020f0;">for</span> !done {
-        done = limit.<span style="color: #0000ff;">Execute</span>(runGame)
-        time.<span style="color: #0000ff;">Sleep</span>(time.Second * 3) <span style="color: #b22222;">// </span><span style="color: #b22222;">because other computers are slow</span>
-}
-limit.<span style="color: #0000ff;">Wait</span>()
-</pre>
-</div>
-<p>
-runGame sends a http request to the server and runs a game based on
-the response. since running a docker container/Dota game, blocks until
-it has finished running we need to spawn a new process every time we
-start a game. Again, in Go this is easy.
-</p>
-
-<p>
-Now that we have our server and workers communicating nicely we can
-run lots of games and generate huge amounts of data.
-</p>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orgc58f871" class="outline-3">
-<h3 id="orgc58f871"><span class="section-number-3">2.10</span> machine learning</h3>
-<div class="outline-text-3" id="text-2-10">
-<p>
-As fun as tweaking random bot variables is, it's not very
-efficient.. for humans. Luckily computers can do boring tasks very
-fast. Since we have a lack of time and processing power we will use an
-algorithm that takes less of both.
-</p>
-</div>
-<div id="outline-container-org0d0e8ad" class="outline-4">
-<h4 id="org0d0e8ad"><span class="section-number-4">2.10.1</span> genetic algorithms</h4>
-<div class="outline-text-4" id="text-2-10-1">
-<p>
-Genetic algorithms are a type of machine learning based on random
-mutations and survival of the fittest. Instead of running the server
-once and getting a result back, we want that resul to be fed back into
-next round's bots. The new server will work as follows:
-</p>
 
 <div class="figure">
 <p><img src="genetic_algo.png" alt="genetic_algo.png" />
 </p>
 </div>
+
+<p>
+In the sake of clarity i'm not explaining the nitty gritty of how
+genes are selected but if you want to learn more about genetic
+algorithms wikipedia has a good list <a href="https://en.wikipedia.org/wiki/Genetic_algorithm">here</a>. Genetic algorithms are just
+a small taste of machine learning and are still incredibly complicated.
+</p>
+
+<p>
+Implementing a genetic algorithm is only as hard as running the
+server over and over and processing data. In order to process each
+games data we need to write a function that will go over the logs and
+generate a fitness score for each hero. A fitness score is a
+cumulative score of how well the bot did with the new mutaed
+genes. An example fitness function would look something like this:
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span style="color: #a020f0;">func</span> <span style="color: #0000ff;">CalculateFitness</span>(hero *<span style="color: #228b22;">heroEvaluation</span>) <span style="color: #228b22;">float64</span> {
+        fitness := 0.0
+
+        fitness += hero.winrate * WIN_MOD
+        fitness += hero.killsPerMinute * KPM_MOD
+        fitness += hero.assistsPerMinute * APM_MOD
+        fitness += hero.goldPerMinute * GPM_MOD
+        fitness += hero.deathsPerMinute * DPM_MOD
+        fitness += hero.experiencePerMinute * XPM_MOD
+
+        <span style="color: #a020f0;">return</span> fitness
+}
+</pre>
+</div>
+<p>
+Each score would then be added together and given a percentage to be
+incorperated into the gene pool. 
+</p>
+<div class="org-src-container">
+<pre class="src src-go">chance := (totalFitness / heroFitness)
+</pre>
+</div>
+<p>
+And voila, you taught a computer to reproduce. Go have some cake, you
+deserve it bud.
+</p>
 </div>
 </div>
+</div>
+<div id="outline-container-org68d6685" class="outline-2">
+<h2 id="org68d6685">Conclusion</h2>
+<div class="outline-text-2" id="text-org68d6685">
+<p>
+Writing a Dota bot is not fun. Designing and implementing a
+distributed, machine learning powered dota swarm is. The complexity
+and variance in each little problem means that we were able to help
+each other solve things we may not have learned in a one dimensional
+project. From docker, to machine learning, to shell scripting and
+network administration. I learned a lot about programming and, more
+importantly, project design and problem solving.
+</p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: aren windham</p>
-<p class="date">Created: 2019-04-26 Fri 18:10</p>
+<p class="author">Author: Aren R. Windham</p>
+<p class="date">Created: 2019-04-26 Fri 19:40</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
