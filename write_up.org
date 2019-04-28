@@ -15,12 +15,11 @@
 * Distributed Dota as a service
   We need to run a Dota executable multiple times with different bot
   files to determine which set of weights were the most effective in
-  practice. Docker is the obvious choice. Docker lets us
-  automatically load the game, bot files, and return the
-  output. Setting up a docker container that grabs the Dota and bot
-  files from the local disk is simple. After some googling and
-  testing we have a way to run a game of Dota and pipe the output to
-  a file.
+  practice. Docker is the obvious choice. Docker lets us automatically
+  load the game, the bot files, and return the output. Setting up a
+  docker container that grabs the Dota and bot files from the local
+  disk is simple. After some googling and testing we have a way to run
+  a game of Dota and pipe the output to a file.
    #+BEGIN_SRC
    FROM fedora:latest
    COPY . /scripts
@@ -42,7 +41,6 @@
    will write the time a tower dies.
    Using this as the basis, it is a non issue to implement every other
    action that can happen throughout the game.
-
    #+BEGIN_SRC awk
      if($0 ~ /Building: npc_Dota_.*_(tower|rax)/){
 	 printf "tower %s died at %d", $2, systime()
@@ -62,13 +60,14 @@
    for distributed computing. Our general layout will work like this.
 *** Server
     The server is informed that 100 games are to be played. The server
-    then starts each worker and opens a http server to listen for requests
-    from each worker. It listens for a START request and replies yes or no
-    depending on if there are still games to be run or not. If it receives
-    a json file instead of a start request it will log it and continue on.
-    The server is just smart enough to worry about how many games it is
-    running and how many games it needs to run, nothing else. Load
-    balancing is handled by the worker.
+    then starts each worker and opens a http server to listen for
+    requests from each worker. It listens for a START request and
+    replies yes or no depending on if there are still games to be run
+    or not. If it receives a json file instead of a start request it
+    will log it and increment the number of games ran.  The server is
+    just smart enough to worry about how many games it is running and
+    how many games it needs to run, nothing else. Load balancing is
+    handled by the worker.
     #+BEGIN_SRC go
       // start http server
       finished.Add(1)
