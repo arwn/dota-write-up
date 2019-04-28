@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-04-26 Fri 19:51 -->
+<!-- 2019-04-27 Sat 17:46 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Machine Learn You Some Dota2</title>
@@ -180,12 +180,6 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -240,33 +234,33 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgb5c1dfb">Introduction</a></li>
-<li><a href="#org0c1597a">Distributed Dota as a service</a>
+<li><a href="#org8ceaf2a">Introduction</a></li>
+<li><a href="#orge0ebffe">Distributed Dota as a service</a>
 <ul>
-<li><a href="#orgf2dc006">Parsing Game Logs</a></li>
-<li><a href="#orgad2579c">AWK</a></li>
-<li><a href="#orgd5d694e">Distributed Dota</a></li>
-<li><a href="#org2097420">Coroutines Are Cool</a>
+<li><a href="#org1a13c61">Parsing Game Logs</a></li>
+<li><a href="#org216eec8">AWK</a></li>
+<li><a href="#org4389cfc">Distributed Dota</a></li>
+<li><a href="#orga55dbd7">Coroutines Are Cool</a>
 <ul>
-<li><a href="#org4953625">Server</a></li>
-<li><a href="#orgd889996">Worker</a></li>
+<li><a href="#orge6deeb9">Server</a></li>
+<li><a href="#org4fbaf2e">Worker</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org4c76e07">Machine Learning</a>
+<li><a href="#org8c220bf">Machine Learning</a>
 <ul>
-<li><a href="#orgc2b4899">Genetic Algorithms</a></li>
+<li><a href="#org02a8d89">Genetic Algorithms</a></li>
 </ul>
 </li>
-<li><a href="#org274e7ae">Conclusion</a></li>
+<li><a href="#orgb169926">Conclusion</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb5c1dfb" class="outline-2">
-<h2 id="orgb5c1dfb">Introduction</h2>
-<div class="outline-text-2" id="text-orgb5c1dfb">
+<div id="outline-container-org8ceaf2a" class="outline-2">
+<h2 id="org8ceaf2a">Introduction</h2>
+<div class="outline-text-2" id="text-org8ceaf2a">
 <p>
 The problem is this; We have a Dota2 bot that is becoming
 increasingly hard to program. Our bot is built with a heuristics
@@ -279,9 +273,9 @@ the change was beneficial.
 </p>
 </div>
 </div>
-<div id="outline-container-org0c1597a" class="outline-2">
-<h2 id="org0c1597a">Distributed Dota as a service</h2>
-<div class="outline-text-2" id="text-org0c1597a">
+<div id="outline-container-orge0ebffe" class="outline-2">
+<h2 id="orge0ebffe">Distributed Dota as a service</h2>
+<div class="outline-text-2" id="text-orge0ebffe">
 <p>
 We need to run a Dota executable multiple times with different bot
 files to determine which set of weights were the most effective in
@@ -299,48 +293,48 @@ VOLUME /dota
 CMD sh /scripts/run_game.sh
 </pre>
 </div>
-<div id="outline-container-orgf2dc006" class="outline-3">
-<h3 id="orgf2dc006">Parsing Game Logs</h3>
-<div class="outline-text-3" id="text-orgf2dc006">
+<div id="outline-container-org1a13c61" class="outline-3">
+<h3 id="org1a13c61">Parsing Game Logs</h3>
+<div class="outline-text-3" id="text-org1a13c61">
 <p>
 Of course Dota couldn't provide nice json files as logs so let's get
 to parsing. Dota game logs vary in length but are consistent with
 spacing and formatting. For example, if a tower dies the log will
-always read: <code>Building: npc_dota_3_tower destroyed</code>. Man if only there
+always read: <code>Building: npc_Dota_3_tower destroyed</code>. Man if only there
 were a way to use regular expressions to match lines and grab fields
 from those lines.
 </p>
 </div>
 </div>
-<div id="outline-container-orgad2579c" class="outline-3">
-<h3 id="orgad2579c">AWK</h3>
-<div class="outline-text-3" id="text-orgad2579c">
+<div id="outline-container-org216eec8" class="outline-3">
+<h3 id="org216eec8">AWK</h3>
+<div class="outline-text-3" id="text-org216eec8">
 <p>
 Awk is a specific purpose programming language (like wolfram alpha or
 bison) as opposed to a general purpose programming language (like Lisp
 or Prolog). This means that awk does one thing, and one thing well;
-text stream processing. Using Gnu Awk we can easily write statement that
+text stream processing. Using GNU Awk we can easily write statement that
 will write the time a tower dies.
 Using this as the basis, it is a non issue to implement every other
 action that can happen throughout the game.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-awk"><span style="color: #a020f0;">if</span>($0 ~ <span style="color: #8b2252;">/Building: npc_dota_.*_(tower|rax)/</span>){
+<pre class="src src-awk"><span style="color: #a020f0;">if</span>($0 ~ <span style="color: #8b2252;">/Building: npc_Dota_.*_(tower|rax)/</span>){
     <span style="color: #483d8b;">printf</span> <span style="color: #8b2252;">"tower %s died at %d"</span>, $2, <span style="color: #483d8b;">systime</span>()
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd5d694e" class="outline-3">
-<h3 id="orgd5d694e">Distributed Dota</h3>
-<div class="outline-text-3" id="text-orgd5d694e">
+<div id="outline-container-org4389cfc" class="outline-3">
+<h3 id="org4389cfc">Distributed Dota</h3>
+<div class="outline-text-3" id="text-org4389cfc">
 <p>
 We can run multiple games and pipe the nicely formatted output to
 files. Now we would like to run hundreds of games and use the data
 from them to create pretty graphs representing how well our bot
-does. each docker container runs one game of Dota, uses two cores, and
+does. Each docker container runs one game of Dota, uses two cores, and
 about 1.3 gigs of ram. Since our computers have 8 threads and 8 gigs
 of ram we can optimally run 4 games at a time. What we would like to
 do is tell the server to run 100 games and have each computer run up
@@ -348,17 +342,17 @@ to 4 games in parallel until that 100 game quota is met.
 </p>
 </div>
 </div>
-<div id="outline-container-org2097420" class="outline-3">
-<h3 id="org2097420">Coroutines Are Cool</h3>
-<div class="outline-text-3" id="text-org2097420">
+<div id="outline-container-orga55dbd7" class="outline-3">
+<h3 id="orga55dbd7">Coroutines Are Cool</h3>
+<div class="outline-text-3" id="text-orga55dbd7">
 <p>
 We will build our own custom solution in a programming language made
 for distributed computing. Our general layout will work like this.
 </p>
 </div>
-<div id="outline-container-org4953625" class="outline-4">
-<h4 id="org4953625">Server</h4>
-<div class="outline-text-4" id="text-org4953625">
+<div id="outline-container-orge6deeb9" class="outline-4">
+<h4 id="orge6deeb9">Server</h4>
+<div class="outline-text-4" id="text-orge6deeb9">
 <p>
 The server is informed that 100 games are to be played. The server
 then starts each worker and opens a http server to listen for requests
@@ -387,18 +381,20 @@ finished.<span style="color: #0000ff;">Wait</span>()
 </pre>
 </div>
 <p>
-finished is a wait group meaning that finished.Wait() will block until
-every worker has sent back it's json data.
+<code>finished</code> is a wait group meaning that finished.Wait() will block
+until every worker has sent back it's json data. We have a wait
+group so that our server will not end before the workers have all
+sent back their game data.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd889996" class="outline-4">
-<h4 id="orgd889996">Worker</h4>
-<div class="outline-text-4" id="text-orgd889996">
+<div id="outline-container-org4fbaf2e" class="outline-4">
+<h4 id="org4fbaf2e">Worker</h4>
+<div class="outline-text-4" id="text-org4fbaf2e">
 <p>
 The worker is in charge of load balancing it's computer and running
 games.  When the server is woke it sends <code>MAX_GAMES</code> requests to the
-server, asking to start games. In Go this is easy
+server, asking to start games. In Go this is easy:
 </p>
 <div class="org-src-container">
 <pre class="src src-go">limit := limiter.<span style="color: #0000ff;">NewConcurrencyLimiter</span>(MAX_GAMES)
@@ -412,7 +408,7 @@ limit.<span style="color: #0000ff;">Wait</span>()
 </div>
 <p>
 <code>RunGame</code> sends a http request to the server and runs a game based on
-the response. since running a docker container/Dota game, blocks until
+the response. Since running a docker container/Dota game, blocks until
 it has finished running we need to spawn a new process every time we
 start a game. Again, in Go this is easy.
 </p>
@@ -425,9 +421,9 @@ run lots of games and generate huge amounts of data.
 </div>
 </div>
 </div>
-<div id="outline-container-org4c76e07" class="outline-2">
-<h2 id="org4c76e07">Machine Learning</h2>
-<div class="outline-text-2" id="text-org4c76e07">
+<div id="outline-container-org8c220bf" class="outline-2">
+<h2 id="org8c220bf">Machine Learning</h2>
+<div class="outline-text-2" id="text-org8c220bf">
 <p>
 As fun as tweaking random bot variables is, it's not very
 efficient.. for humans. Luckily computers can do boring tasks very
@@ -435,9 +431,9 @@ fast. Since we have a lack of time and processing power we will use an
 algorithm that takes less of both.
 </p>
 </div>
-<div id="outline-container-orgc2b4899" class="outline-3">
-<h3 id="orgc2b4899">Genetic Algorithms</h3>
-<div class="outline-text-3" id="text-orgc2b4899">
+<div id="outline-container-org02a8d89" class="outline-3">
+<h3 id="org02a8d89">Genetic Algorithms</h3>
+<div class="outline-text-3" id="text-org02a8d89">
 <p>
 Genetic algorithms are a type of machine learning based on random
 mutations and survival of the fittest. Instead of running the server
@@ -496,12 +492,12 @@ deserve it bud.
 </div>
 </div>
 </div>
-<div id="outline-container-org274e7ae" class="outline-2">
-<h2 id="org274e7ae">Conclusion</h2>
-<div class="outline-text-2" id="text-org274e7ae">
+<div id="outline-container-orgb169926" class="outline-2">
+<h2 id="orgb169926">Conclusion</h2>
+<div class="outline-text-2" id="text-orgb169926">
 <p>
 Writing a Dota bot is not fun. Designing and implementing a
-distributed, machine learning powered dota swarm is. The complexity
+distributed, machine learning powered Dota swarm is. The complexity
 and variance in each little problem means that we were able to help
 each other solve things we may not have learned in a one dimensional
 project. From docker, to machine learning, to shell scripting and
@@ -513,7 +509,7 @@ importantly, project design and problem solving.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Aren R. Windham</p>
-<p class="date">Created: 2019-04-26 Fri 19:51</p>
+<p class="date">Created: 2019-04-27 Sat 17:46</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

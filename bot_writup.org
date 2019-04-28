@@ -1,5 +1,4 @@
 #+OPTIONS: num:nil
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
 #+TITLE: Machine Learn You Some Dota2
 #+AUTHOR: Aren R. Windham
 #+EMAIL: windham.aren@protonmail.com
@@ -14,14 +13,14 @@
   game. We need a way to run hundreds of games and get hard data on if
   the change was beneficial.
 * Distributed Dota as a service
-   We need to run a Dota executable multiple times with different bot
-   files to determine which set of weights were the most effective in
-   practice. Docker is the obvious choice. Docker lets us
-   automatically load the game, bot files, and return the
-   output. Setting up a docker container that grabs the Dota and bot
-   files from the local disk is simple. After some googling and
-   testing we have a way to run a game of Dota and pipe the output to
-   a file.
+  We need to run a Dota executable multiple times with different bot
+  files to determine which set of weights were the most effective in
+  practice. Docker is the obvious choice. Docker lets us
+  automatically load the game, bot files, and return the
+  output. Setting up a docker container that grabs the Dota and bot
+  files from the local disk is simple. After some googling and
+  testing we have a way to run a game of Dota and pipe the output to
+  a file.
    #+BEGIN_SRC
    FROM fedora:latest
    COPY . /scripts
@@ -32,20 +31,20 @@
    Of course Dota couldn't provide nice json files as logs so let's get
    to parsing. Dota game logs vary in length but are consistent with
    spacing and formatting. For example, if a tower dies the log will
-   always read: ~Building: npc_dota_3_tower destroyed~. Man if only there
+   always read: ~Building: npc_Dota_3_tower destroyed~. Man if only there
    were a way to use regular expressions to match lines and grab fields
    from those lines.
 ** AWK
    Awk is a specific purpose programming language (like wolfram alpha or
    bison) as opposed to a general purpose programming language (like Lisp
    or Prolog). This means that awk does one thing, and one thing well;
-   text stream processing. Using Gnu Awk we can easily write statement that
+   text stream processing. Using GNU Awk we can easily write statement that
    will write the time a tower dies.
    Using this as the basis, it is a non issue to implement every other
    action that can happen throughout the game.
 
    #+BEGIN_SRC awk
-     if($0 ~ /Building: npc_dota_.*_(tower|rax)/){
+     if($0 ~ /Building: npc_Dota_.*_(tower|rax)/){
 	 printf "tower %s died at %d", $2, systime()
      }
    #+END_SRC
@@ -53,7 +52,7 @@
    We can run multiple games and pipe the nicely formatted output to
    files. Now we would like to run hundreds of games and use the data
    from them to create pretty graphs representing how well our bot
-   does. each docker container runs one game of Dota, uses two cores, and
+   does. Each docker container runs one game of Dota, uses two cores, and
    about 1.3 gigs of ram. Since our computers have 8 threads and 8 gigs
    of ram we can optimally run 4 games at a time. What we would like to
    do is tell the server to run 100 games and have each computer run up
@@ -86,12 +85,14 @@
       // wait for every worker to complete their games
       finished.Wait()
     #+END_SRC
-    finished is a wait group meaning that finished.Wait() will block until
-    every worker has sent back it's json data.
+    ~finished~ is a wait group meaning that finished.Wait() will block
+    until every worker has sent back it's json data. We have a wait
+    group so that our server will not end before the workers have all
+    sent back their game data.
 *** Worker
     The worker is in charge of load balancing it's computer and running
     games.  When the server is woke it sends ~MAX_GAMES~ requests to the
-    server, asking to start games. In Go this is easy
+    server, asking to start games. In Go this is easy:
     #+BEGIN_SRC go
       limit := limiter.NewConcurrencyLimiter(MAX_GAMES)
       done := false
@@ -102,7 +103,7 @@
       limit.Wait()
     #+END_SRC
     ~RunGame~ sends a http request to the server and runs a game based on
-    the response. since running a docker container/Dota game, blocks until
+    the response. Since running a docker container/Dota game, blocks until
     it has finished running we need to spawn a new process every time we
     start a game. Again, in Go this is easy.
 
@@ -183,7 +184,7 @@
    deserve it bud.
 * Conclusion
   Writing a Dota bot is not fun. Designing and implementing a
-  distributed, machine learning powered dota swarm is. The complexity
+  distributed, machine learning powered Dota swarm is. The complexity
   and variance in each little problem means that we were able to help
   each other solve things we may not have learned in a one dimensional
   project. From docker, to machine learning, to shell scripting and
