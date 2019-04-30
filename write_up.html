@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-04-27 Sat 18:46 -->
+<!-- 2019-04-29 Mon 17:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Machine Learn You Some Dota2</title>
@@ -234,35 +234,35 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org6256aab">Introduction</a></li>
-<li><a href="#org0c5db10">Distributed Dota as a service</a>
+<li><a href="#orgc1c6ba6">Introduction</a></li>
+<li><a href="#orgf90d8cc">Distributed Dota as a service</a>
 <ul>
-<li><a href="#orgf681ec0">Parsing Game Logs</a></li>
-<li><a href="#orgaddf757">AWK</a></li>
-<li><a href="#org5f1bb28">Distributed Dota</a></li>
-<li><a href="#orgbb56af6">Coroutines Are Cool</a>
+<li><a href="#org75a0de8">Parsing Game Logs</a></li>
+<li><a href="#orgc6c4889">AWK</a></li>
+<li><a href="#org90a0e83">Distributed Dota</a></li>
+<li><a href="#org9911d70">Coroutines Are Cool</a>
 <ul>
-<li><a href="#org1b3e99f">Server</a></li>
-<li><a href="#org469fe18">Worker</a></li>
+<li><a href="#org64302ce">Server</a></li>
+<li><a href="#orgb538a50">Worker</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orga614ca2">Machine Learning</a>
+<li><a href="#org1effd34">Machine Learning</a>
 <ul>
-<li><a href="#org927a38b">Genetic Algorithms</a></li>
+<li><a href="#org5eac402">Genetic Algorithms</a></li>
 </ul>
 </li>
-<li><a href="#orgbd1f529">Conclusion</a></li>
+<li><a href="#org5acb348">Conclusion</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org6256aab" class="outline-2">
-<h2 id="org6256aab">Introduction</h2>
-<div class="outline-text-2" id="text-org6256aab">
+<div id="outline-container-orgc1c6ba6" class="outline-2">
+<h2 id="orgc1c6ba6">Introduction</h2>
+<div class="outline-text-2" id="text-orgc1c6ba6">
 <p>
-The problem is this; We have a Dota2 bot that is becoming
+The problem is this: We have a Dota2 bot that is becoming
 increasingly hard to program. Our bot is built with a heuristics
 based <a href="https://en.wikipedia.org/wiki/Finite-state_machine">state machine</a>. Each state has a hard coded weight that will
 give precedence to an action that can be taken that moment. Dota is
@@ -273,9 +273,9 @@ the change was beneficial.
 </p>
 </div>
 </div>
-<div id="outline-container-org0c5db10" class="outline-2">
-<h2 id="org0c5db10">Distributed Dota as a service</h2>
-<div class="outline-text-2" id="text-org0c5db10">
+<div id="outline-container-orgf90d8cc" class="outline-2">
+<h2 id="orgf90d8cc">Distributed Dota as a service</h2>
+<div class="outline-text-2" id="text-orgf90d8cc">
 <p>
 We need to run a Dota executable multiple times with different bot
 files to determine which set of weights were the most effective in
@@ -292,9 +292,9 @@ VOLUME /dota
 CMD sh /scripts/run_game.sh
 </pre>
 </div>
-<div id="outline-container-orgf681ec0" class="outline-3">
-<h3 id="orgf681ec0">Parsing Game Logs</h3>
-<div class="outline-text-3" id="text-orgf681ec0">
+<div id="outline-container-org75a0de8" class="outline-3">
+<h3 id="org75a0de8">Parsing Game Logs</h3>
+<div class="outline-text-3" id="text-org75a0de8">
 <p>
 Of course Dota couldn't provide nice json files as logs so let's get
 to parsing. Dota game logs vary in length but are consistent with
@@ -305,9 +305,9 @@ from those lines.
 </p>
 </div>
 </div>
-<div id="outline-container-orgaddf757" class="outline-3">
-<h3 id="orgaddf757">AWK</h3>
-<div class="outline-text-3" id="text-orgaddf757">
+<div id="outline-container-orgc6c4889" class="outline-3">
+<h3 id="orgc6c4889">AWK</h3>
+<div class="outline-text-3" id="text-orgc6c4889">
 <p>
 Awk is a specific purpose programming language (like wolfram alpha or
 bison) as opposed to a general purpose programming language (like Lisp
@@ -325,9 +325,9 @@ action that can happen throughout the game.
 </div>
 </div>
 </div>
-<div id="outline-container-org5f1bb28" class="outline-3">
-<h3 id="org5f1bb28">Distributed Dota</h3>
-<div class="outline-text-3" id="text-org5f1bb28">
+<div id="outline-container-org90a0e83" class="outline-3">
+<h3 id="org90a0e83">Distributed Dota</h3>
+<div class="outline-text-3" id="text-org90a0e83">
 <p>
 We can run multiple games and pipe the nicely formatted output to
 files. Now we would like to run hundreds of games and use the data
@@ -340,17 +340,17 @@ to 4 games in parallel until that 100 game quota is met.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbb56af6" class="outline-3">
-<h3 id="orgbb56af6">Coroutines Are Cool</h3>
-<div class="outline-text-3" id="text-orgbb56af6">
+<div id="outline-container-org9911d70" class="outline-3">
+<h3 id="org9911d70">Coroutines Are Cool</h3>
+<div class="outline-text-3" id="text-org9911d70">
 <p>
 We will build our own custom solution in a programming language made
 for distributed computing. Our general layout will work like this.
 </p>
 </div>
-<div id="outline-container-org1b3e99f" class="outline-4">
-<h4 id="org1b3e99f">Server</h4>
-<div class="outline-text-4" id="text-org1b3e99f">
+<div id="outline-container-org64302ce" class="outline-4">
+<h4 id="org64302ce">Server</h4>
+<div class="outline-text-4" id="text-org64302ce">
 <p>
 The server is informed that 100 games are to be played. The server
 then starts each worker and opens a http server to listen for
@@ -387,9 +387,9 @@ sent back their game data.
 </p>
 </div>
 </div>
-<div id="outline-container-org469fe18" class="outline-4">
-<h4 id="org469fe18">Worker</h4>
-<div class="outline-text-4" id="text-org469fe18">
+<div id="outline-container-orgb538a50" class="outline-4">
+<h4 id="orgb538a50">Worker</h4>
+<div class="outline-text-4" id="text-orgb538a50">
 <p>
 The worker is in charge of load balancing it's computer and running
 games.  When the server is woke it sends <code>MAX_GAMES</code> requests to the
@@ -420,9 +420,9 @@ run lots of games and generate huge amounts of data.
 </div>
 </div>
 </div>
-<div id="outline-container-orga614ca2" class="outline-2">
-<h2 id="orga614ca2">Machine Learning</h2>
-<div class="outline-text-2" id="text-orga614ca2">
+<div id="outline-container-org1effd34" class="outline-2">
+<h2 id="org1effd34">Machine Learning</h2>
+<div class="outline-text-2" id="text-org1effd34">
 <p>
 As fun as tweaking random bot variables is, it's not very
 efficient.. for humans. Luckily computers can do boring tasks very
@@ -430,13 +430,13 @@ fast. Since we have a lack of time and processing power we will use an
 algorithm that takes less of both.
 </p>
 </div>
-<div id="outline-container-org927a38b" class="outline-3">
-<h3 id="org927a38b">Genetic Algorithms</h3>
-<div class="outline-text-3" id="text-org927a38b">
+<div id="outline-container-org5eac402" class="outline-3">
+<h3 id="org5eac402">Genetic Algorithms</h3>
+<div class="outline-text-3" id="text-org5eac402">
 <p>
 Genetic algorithms are a type of machine learning based on random
 mutations and survival of the fittest. Instead of running the server
-once and getting a result back, we want that resul to be fed back into
+once and getting a result back, we want that result to be fed back into
 next round's bots. The new server will work as follows:
 </p>
 
@@ -447,9 +447,9 @@ next round's bots. The new server will work as follows:
 </div>
 
 <p>
-In the sake of clarity i'm not explaining the nitty gritty of how
+For the sake of clarity I'm not explaining the nitty gritty of how
 genes are selected but if you want to learn more about genetic
-algorithms wikipedia has a good list <a href="https://en.wikipedia.org/wiki/Genetic_algorithm">here</a>. Genetic algorithms are just
+algorithms Wikipedia has a good article <a href="https://en.wikipedia.org/wiki/Genetic_algorithm">here</a>. Genetic algorithms are just
 a small taste of machine learning and are still incredibly complicated.
 </p>
 
@@ -458,7 +458,7 @@ Implementing a genetic algorithm is only as hard as running the
 server over and over and processing data. In order to process each
 games data we need to write a function that will go over the logs and
 generate a fitness score for each hero. A fitness score is a
-cumulative score of how well the bot did with the new mutaed
+cumulative score of how well the bot did with the new mutated
 genes. An example fitness function would look something like this:
 </p>
 <div class="org-src-container">
@@ -478,10 +478,10 @@ genes. An example fitness function would look something like this:
 </div>
 <p>
 Each score would then be added together and given a percentage to be
-incorperated into the gene pool. 
+incorporated into the gene pool. 
 </p>
 <div class="org-src-container">
-<pre class="src src-go">chance := (totalFitness / heroFitness)
+<pre class="src src-go">chance := (heroFitness = totalFitness)
 </pre>
 </div>
 <p>
@@ -491,9 +491,9 @@ deserve it bud.
 </div>
 </div>
 </div>
-<div id="outline-container-orgbd1f529" class="outline-2">
-<h2 id="orgbd1f529">Conclusion</h2>
-<div class="outline-text-2" id="text-orgbd1f529">
+<div id="outline-container-org5acb348" class="outline-2">
+<h2 id="org5acb348">Conclusion</h2>
+<div class="outline-text-2" id="text-org5acb348">
 <p>
 Writing a Dota bot is not fun. Designing and implementing a
 distributed, machine learning powered Dota swarm is. The complexity
@@ -508,7 +508,7 @@ importantly, project design and problem solving.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Aren R. Windham</p>
-<p class="date">Created: 2019-04-27 Sat 18:46</p>
+<p class="date">Created: 2019-04-29 Mon 17:25</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

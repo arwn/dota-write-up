@@ -4,7 +4,7 @@
 #+EMAIL: windham.aren@protonmail.com
 
 * Introduction
-  The problem is this; We have a Dota2 bot that is becoming
+  The problem is this: We have a Dota2 bot that is becoming
   increasingly hard to program. Our bot is built with a heuristics
   based [[https://en.wikipedia.org/wiki/Finite-state_machine][state machine]]. Each state has a hard coded weight that will
   give precedence to an action that can be taken that moment. Dota is
@@ -116,7 +116,7 @@
 ** Genetic Algorithms
    Genetic algorithms are a type of machine learning based on random
    mutations and survival of the fittest. Instead of running the server
-   once and getting a result back, we want that resul to be fed back into
+   once and getting a result back, we want that result to be fed back into
    next round's bots. The new server will work as follows:
 
    #+BEGIN_SRC plantuml :file genetic_algo.png
@@ -149,16 +149,16 @@
    #+RESULTS:
    [[file:genetic_algo.png]]
 
-   In the sake of clarity i'm not explaining the nitty gritty of how
+   For the sake of clarity I'm not explaining the nitty gritty of how
    genes are selected but if you want to learn more about genetic
-   algorithms wikipedia has a good list [[https://en.wikipedia.org/wiki/Genetic_algorithm][here]]. Genetic algorithms are just
+   algorithms Wikipedia has a good article [[https://en.wikipedia.org/wiki/Genetic_algorithm][here]]. Genetic algorithms are just
    a small taste of machine learning and are still incredibly complicated.
 
    Implementing a genetic algorithm is only as hard as running the
    server over and over and processing data. In order to process each
    games data we need to write a function that will go over the logs and
    generate a fitness score for each hero. A fitness score is a
-   cumulative score of how well the bot did with the new mutaed
+   cumulative score of how well the bot did with the new mutated
    genes. An example fitness function would look something like this:
    #+BEGIN_SRC go
      func CalculateFitness(hero *heroEvaluation) float64 {
@@ -175,9 +175,9 @@
      }
    #+END_SRC
    Each score would then be added together and given a percentage to be
-   incorperated into the gene pool. 
+   incorporated into the gene pool. 
    #+BEGIN_SRC go
-     chance := (totalFitness / heroFitness)
+     chance := (heroFitness = totalFitness)
    #+END_SRC
    And voila, you taught a computer to reproduce. Go have some cake, you
    deserve it bud.
